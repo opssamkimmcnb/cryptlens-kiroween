@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run CryptLens analyzer tests on source edit",
+      "trigger": "PostFileSave",
+      "matcher": "^(src|tests)/.*\\.js$",
+      "action": {
+        "type": "command",
+        "command": "node --test tests/*.test.js"
+      }
+    }
+  ]
+}

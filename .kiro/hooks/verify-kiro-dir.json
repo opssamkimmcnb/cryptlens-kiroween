@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Ensure .kiro directory is never ignored",
+      "trigger": "PostFileSave",
+      "matcher": "^\\.gitignore$",
+      "action": {
+        "type": "agent",
+        "prompt": "Verify that .gitignore does not ignore the .kiro directory or any of its subdirectories, as required by Kiroween 2026 submission rules."
+      }
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CryptLens — Haunted Code Archaeologist &amp; Complexity Profiler</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕯️</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="lantern-overlay" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-sigil" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c77dff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.5 2.2 2.5 3.8 2.5 5.2a2.5 2.5 0 1 1-5 0C9.5 5.8 10.5 4.2 12 2z"/><rect x="8" y="11" width="8" height="11" rx="2"/><path d="M8 15h8"/></svg>
+      </div>
+      <div>
+        <h1>CryptLens <span class="badge-kiroween">KIROWEEN 2026</span></h1>
+        <p class="subtitle">Haunted Static Code Archaeologist · Complexity &amp; Call-Graph Profiler</p>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <button id="btn-lantern" class="btn btn-ghost" type="button" title="Toggle Lantern Spotlight">
+        ✦ Lantern: <span id="lantern-state">ON</span>
+      </button>
+      <button id="btn-audio" class="btn btn-ghost" type="button" title="Toggle Spectral Audio">
+        ♪ Audio: <span id="audio-state">OFF</span>
+      </button>
+      <button id="btn-export" class="btn btn-secondary" type="button">
+        ◈ Export Audit (.md)
+      </button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <!-- Left Column: Code Grimoire Input -->
+    <section class="panel editor-panel">
+      <div class="panel-header">
+        <div>
+          <h2>1. Source Grimoire</h2>
+          <span class="hint">Paste JS/TS/Python or drag &amp; drop a file</span>
+        </div>
+        <div class="controls-row">
+          <select id="specimen-select" aria-label="Load haunted specimen">
+            <option value="haunted-auth">Specimen: Monolithic Auth (JS)</option>
+            <option value="billing-pipeline">Specimen: Poltergeist Pricing (JS)</option>
+            <option value="python-telemetry">Specimen: Bare Except Telemetry (PY)</option>
+          </select>
+          <select id="lang-select" aria-label="Language">
+            <option value="auto">Lang: Auto</option>
+            <option value="javascript">JavaScript / TS</option>
+            <option value="python">Python</option>
+          </select>
+          <label class="btn btn-ghost upload-label" for="file-input">+ Load File</label>
+          <input id="file-input" type="file" accept=".js,.jsx,.ts,.tsx,.py,.mjs" hidden />
+        </div>
+      </div>
+
+      <div id="drop-zone" class="editor-wrap">
+        <textarea id="code-input" spellcheck="false" aria-label="Source code to analyze"></textarea>
+      </div>
+
+      <div class="editor-footer">
+        <span id="file-meta" class="meta-text">Loaded: Monolithic Auth Gatekeeper (JS)</span>
+        <div class="controls-row">
+          <button id="btn-exorcise" class="btn btn-ecto" type="button">✦ Perform Exorcism</button>
+          <button id="btn-analyze" class="btn btn-primary" type="button">⚡ Summon Analysis</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Metrics, Tombstone Graph & Exorcism Tabs -->
+    <section class="panel insights-panel">
+      <div class="metrics-strip">
+        <div class="metric-card curse-card">
+          <span class="metric-label">Curse Score</span>
+          <div class="metric-value-row">
+            <strong id="metric-score">0</strong>
+            <span id="metric-tier" class="tier-pill">Sanctified</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Functions</span>
+          <strong id="metric-funcs">0</strong>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Max Complexity</span>
+          <strong id="metric-cc">0</strong>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Max Nesting</span>
+          <strong id="metric-nesting">0</strong>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Active Curses</span>
+          <strong id="metric-curses">0</strong>
+        </div>
+      </div>
+
+      <div class="tabs-bar" role="tablist">
+        <button class="tab-btn active" data-tab="graveyard" role="tab" aria-selected="true">† Spectral Graveyard</button>
+        <button class="tab-btn" data-tab="curses" role="tab" aria-selected="false">◈ Curse Diagnostics</button>
+        <button class="tab-btn" data-tab="exorcism" role="tab" aria-selected="false">✦ Exorcism Diff</button>
+      </div>
+
+      <div id="tab-graveyard" class="tab-pane active">
+        <div class="canvas-wrap">
+          <canvas id="graveyard-canvas"></canvas>
+        </div>
+        <div id="node-inspector" class="inspector-box">
+          <p class="muted">Click any tombstone node above to inspect its complexity, call edges, and source lines.</p>
+        </div>
+      </div>
+
+      <div id="tab-curses" class="tab-pane">
+        <div id="curses-list" class="curses-list"></div>
+      </div>
+
+      <div id="tab-exorcism" class="tab-pane">
+        <div id="exorcism-summary" class="exorcism-banner"></div>
+        <div class="diff-grid">
+          <div class="diff-col">
+            <h3>× Cursed Original</h3>
+            <pre id="diff-before" class="code-preview"></pre>
+          </div>
+          <div class="diff-col">
+            <h3>✓ Exorcised Refactor</h3>
+            <pre id="diff-after" class="code-preview"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Built with <strong>Kiro</strong> (Specs, Hooks &amp; Steering) for <strong>Kiroween 2026 — Costume Contest</strong> · 100% Client-Side Static Engine</span>
+    <span id="status-toast" role="status" aria-live="polite"></span>
+  </footer>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

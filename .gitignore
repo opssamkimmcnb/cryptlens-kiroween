@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+*.log
+demo/frames/
+SUBMISSION_GUIDE.md
+LOCAL_AI_PROMPT.md
+!/.kiro/
+!/.kiro/**
